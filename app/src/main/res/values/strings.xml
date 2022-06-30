@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Clone_Instagram</string>
+    <string name="email">E-mail</string>
+    <string name="password">Senha</string>
+    <string name="enter">Entrar</string>
+    <string name="OR">OU</string>
+    <string name="does_not_have_account">Não tem uma conta ? Cadastre-se</string>
+</resources>
