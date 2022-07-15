@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:showIn="@layout/activity_main">
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_img_icon"
@@ -98,11 +105,45 @@
         android:id="@+id/profile_txt_username"
         style="@style/Theme.Clone_Instagram.TextViewProfile"
         android:text="@string/username"
+        android:layout_marginTop="35dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/profile_img_icon"
-        app:layout_constraintTop_toBottomOf="@id/profile_img_icon"
-        android:layout_marginTop=""
-         />
+        app:layout_constraintTop_toBottomOf="@id/profile_img_icon" />
 
+    <TextView
+        android:id="@+id/profile_txt_bio"
+        style="@style/Theme.Clone_Instagram.TextViewProfile"
+        android:text="@string/username"
+        app:layout_constraintEnd_toEndOf="@id/profile_btn_edit"
+        app:layout_constraintStart_toStartOf="@id/profile_img_icon"
+        app:layout_constraintTop_toBottomOf="@id/profile_txt_username"
+        tools:text="teste teste teste  teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste  "
+        android:maxLines="3"
+        android:ellipsize="marquee"
+        android:textAlignment="textStart"
+        />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/profile_nav_tabs"
+        app:menu="@menu/menu_profile_bottom_nav"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/top_bottom_border"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/profile_txt_bio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/profile_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_profile_grid"
+        app:layout_constraintTop_toBottomOf="@id/profile_nav_tabs"
+        app:layout_constraintBottom_toBottomOf="parent"
+/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
