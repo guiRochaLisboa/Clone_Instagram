@@ -12,6 +12,7 @@ import com.example.clone_instagram.R
 
 class LoadingButton : FrameLayout {
 
+
     private lateinit var button : Button
     private lateinit var progressbar: ProgressBar
     private var text : String? = null

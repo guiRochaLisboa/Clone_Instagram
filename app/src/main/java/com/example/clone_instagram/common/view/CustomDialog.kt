@@ -7,23 +7,18 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.clone_instagram.R
+import com.example.clone_instagram.databinding.DialogCustomerBinding
 
 class CustomDialog(context: Context) : Dialog(context) {
 
-
-    private lateinit var dialogLinearLayou: LinearLayout
+    private lateinit var binding : DialogCustomerBinding
     private lateinit var txtButtons : Array<TextView>
-    private lateinit var txtTitle : TextView
-
-
     private var titleId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_customer)
-
-        dialogLinearLayou = findViewById(R.id.dialog_container)
-        txtTitle = findViewById(R.id.dialog_title)
+        binding = DialogCustomerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
     fun addButton(vararg texts: Int,listener: View.OnClickListener) {
@@ -48,16 +43,20 @@ class CustomDialog(context: Context) : Dialog(context) {
     override fun show() {
         super.show()
 
-        titleId?.let {
-            txtTitle.setText(it)
+        with(binding){
+            titleId?.let {
+                dialogTitle.setText(it)
+            }
+
+            for (textView in txtButtons){
+                val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                layoutParams.setMargins(30,50,30,50)
+
+                dialogContainer.addView(textView,layoutParams)
+            }
         }
 
-        for (textView in txtButtons){
-            val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-            layoutParams.setMargins(30,50,30,50)
 
-            dialogLinearLayou.addView(textView,layoutParams)
-        }
     }
 
 }
