@@ -12,6 +12,7 @@ import com.example.clone_instagram.login.data.FakeDataSource
 import com.example.clone_instagram.login.data.LoginRepository
 import com.example.clone_instagram.login.presentation.LoginPresenter
 import com.example.clone_instagram.main.view.MainActivity
+import com.example.clone_instagram.register.view.RegisterActivity
 
 
 class LoginActivity : AppCompatActivity(), Login.View {
@@ -42,11 +43,16 @@ class LoginActivity : AppCompatActivity(), Login.View {
             loginBtnEnter.setOnClickListener {
             //CHAMAR O PRESENTER
             presenter.login(loginEditEmail.text.toString(),loginEditPassword.text.toString())
+            }
 
-
-           /**     */
+            loginTxtRegister.setOnClickListener {
+                getRegisterScreen()
             }
         }
+    }
+
+    private fun getRegisterScreen() {
+        startActivity(Intent(this,RegisterActivity::class.java))
     }
 
     override fun onDestroy() {

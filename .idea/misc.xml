@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/APPS_GITHUB/Clone_Instagram/app/src/main/res/layout/activity_register.xml" value="0.3383152173913043" />
+        <entry key="..\:/APPS_GITHUB/Clone_Instagram/app/src/main/res/layout/button_loading.xml" value="0.13796296296296295" />
+        <entry key="..\:/APPS_GITHUB/Clone_Instagram/app/src/main/res/layout/fragment_register_email.xml" value="0.3383152173913043" />
+        <entry key="..\:/APPS_GITHUB/Clone_Instagram/app/src/main/res/layout/fragmnet_register_name_password.xml" value="0.1" />
         <entry key="..\:/Users/Guilherme/PROJETOSEXPRESSANDROID/Clone_Instagram/app/src/main/res/drawable/edit_text_background.xml" value="0.2895" />
         <entry key="..\:/Users/Guilherme/PROJETOSEXPRESSANDROID/Clone_Instagram/app/src/main/res/drawable/ic_close.xml" value="0.347" />
         <entry key="..\:/Users/Guilherme/PROJETOSEXPRESSANDROID/Clone_Instagram/app/src/main/res/drawable/ic_insta_add.xml" value="0.347" />

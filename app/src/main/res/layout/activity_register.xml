@@ -6,11 +6,12 @@
     android:orientation="vertical"
     tools:context=".register.view.RegisterActivity">
 
-    <fragment
+
+    <!--Utilizamos o FrameLayout para trocar de forma dinamica os fragments do criação do usuario-->
+    <FrameLayout
         android:id="@+id/register_fragment"
         android:layout_width="match_parent"
-        android:name="com.example.clone_instagram.register.view.RegisterPhotoFragment"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_register_photo"/>
+        tools:layout="@layout/fragment_register_email"/>
 
 </LinearLayout>

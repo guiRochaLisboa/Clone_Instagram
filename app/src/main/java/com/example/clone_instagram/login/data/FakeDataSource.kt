@@ -2,6 +2,7 @@ package com.example.clone_instagram.login.data
 
 import android.os.Handler
 import android.os.Looper
+import com.example.clone_instagram.common.model.DataBase
 
 class FakeDataSource : LoginDataSource {
 
@@ -9,11 +10,17 @@ class FakeDataSource : LoginDataSource {
     override fun login(email: String, password: String, callback: LoginCallback) {
         Handler(Looper.getMainLooper()).postDelayed({
 
-            if (email == "a@a.com" && password == "12345678"){
-            callback.onSuccess()
+           val userAuth =  DataBase.usersAuth.firstOrNull{ email == it.email }
+
+            if (userAuth == null){
+                callback.onFailure("Usuário não encontrado")
+            }else if(userAuth.password != password){
+                callback.onFailure("Senha está incorreta")
             }else{
-          callback.onFailure("usuário não encontrado")
+                DataBase.sessionAuth = userAuth
+                callback.onSuccess(userAuth)
             }
+
             callback.onComplete()
         }, 2000)
     }
