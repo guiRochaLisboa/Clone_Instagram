@@ -5,11 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.clone_instagram.common.view.TxtWatcher
-import com.example.clone_instagram.common.view.base.DependencyInjector
+import com.example.clone_instagram.common.base.DependencyInjector
 import com.example.clone_instagram.databinding.ActivityLoginBinding
 import com.example.clone_instagram.login.Login
-import com.example.clone_instagram.login.data.FakeDataSource
-import com.example.clone_instagram.login.data.LoginRepository
 import com.example.clone_instagram.login.presentation.LoginPresenter
 import com.example.clone_instagram.main.view.MainActivity
 import com.example.clone_instagram.register.view.RegisterActivity

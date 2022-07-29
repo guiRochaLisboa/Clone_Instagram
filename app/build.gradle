@@ -44,7 +44,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0' //Extenção para imagem circular
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0' //Extenção para editar as fts
+    implementation 'androidx.fragment:fragment-ktx:1.5.1' //Extenção para comunicação entre fragments
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

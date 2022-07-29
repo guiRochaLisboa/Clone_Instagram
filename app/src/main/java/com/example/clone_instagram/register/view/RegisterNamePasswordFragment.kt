@@ -3,20 +3,14 @@ package com.example.clone_instagram.register.view
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.example.clone_instagram.R
 import com.example.clone_instagram.common.view.TxtWatcher
-import com.example.clone_instagram.common.view.base.DependencyInjector
-import com.example.clone_instagram.databinding.FragmentRegisterEmailBinding
+import com.example.clone_instagram.common.base.DependencyInjector
 import com.example.clone_instagram.databinding.FragmnetRegisterNamePasswordBinding
-import com.example.clone_instagram.register.RegisterEmail
 import com.example.clone_instagram.register.RegisterNameAndPassword
-import com.example.clone_instagram.register.presentation.RegisterEmailPresenter
 import com.example.clone_instagram.register.presentation.RegisterNamePasswordPresenter
 import java.lang.IllegalArgumentException
 
@@ -106,7 +100,7 @@ class RegisterNamePasswordFragment : Fragment(R.layout.fragmnet_register_name_pa
     }
 
     override fun onCreateSucess(name: String) {
-         TODO: abrir a tela de bem-vindo
+      fragmentAttachListener?.goToWelcomeScreen(name)
     }
 
     override fun onCreateFailure(message: String) {
@@ -122,7 +116,7 @@ class RegisterNamePasswordFragment : Fragment(R.layout.fragmnet_register_name_pa
 
 
     companion object{
-        const val KEY_EMAIL = "kay_email"
+        const val KEY_EMAIL = "key_email"
     }
 
 }

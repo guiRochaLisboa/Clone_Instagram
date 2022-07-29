@@ -1,8 +1,8 @@
 package com.example.clone_instagram.register
 
 import androidx.annotation.StringRes
-import com.example.clone_instagram.common.view.base.BasePresenter
-import com.example.clone_instagram.common.view.base.BaseView
+import com.example.clone_instagram.common.base.BasePresenter
+import com.example.clone_instagram.common.base.BaseView
 
 interface RegisterNameAndPassword {
 

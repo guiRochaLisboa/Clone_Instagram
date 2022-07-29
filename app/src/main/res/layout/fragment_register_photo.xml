@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/register_img_profile"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
@@ -41,7 +42,7 @@
                 android:textColor="@color/black" />
 
 
-            <com.example.clone_instagram.login.view.LoadingButton
+            <com.example.clone_instagram.common.view.LoadingButton
                 android:id="@+id/register_btn_next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

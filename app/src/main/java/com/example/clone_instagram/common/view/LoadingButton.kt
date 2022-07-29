@@ -1,4 +1,4 @@
-package com.example.clone_instagram.login.view
+package com.example.clone_instagram.common.view
 
 import android.content.AttributionSource
 import android.content.Context

@@ -12,13 +12,17 @@ class FakeDataSource : LoginDataSource {
 
            val userAuth =  DataBase.usersAuth.firstOrNull{ email == it.email }
 
-            if (userAuth == null){
-                callback.onFailure("Usuário não encontrado")
-            }else if(userAuth.password != password){
-                callback.onFailure("Senha está incorreta")
-            }else{
-                DataBase.sessionAuth = userAuth
-                callback.onSuccess(userAuth)
+            when {
+                userAuth == null -> {
+                    callback.onFailure("Usuário não encontrado")
+                }
+                userAuth.password != password -> {
+                    callback.onFailure("Senha está incorreta")
+                }
+                else -> {
+                    DataBase.sessionAuth = userAuth
+                    callback.onSuccess(userAuth)
+                }
             }
 
             callback.onComplete()
