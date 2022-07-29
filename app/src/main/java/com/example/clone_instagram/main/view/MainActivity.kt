@@ -20,10 +20,14 @@ class MainActivity : AppCompatActivity() {
          * Customização da status bar
          */
 
-        window.insetsController?.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-            ,WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+            window.insetsController?.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                ,WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
 
-        window.statusBarColor = ContextCompat.getColor(this,R.color.gray)
+            window.statusBarColor = ContextCompat.getColor(this,R.color.gray)
+
+        }
+
 
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
         setSupportActionBar(toolbar)
