@@ -7,7 +7,6 @@ import android.view.View
 import android.view.Window
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.example.clone_instagram.R
 import com.example.clone_instagram.databinding.DialogCustomerBinding
 
 class CustomDialog(context: Context) : Dialog(context) {

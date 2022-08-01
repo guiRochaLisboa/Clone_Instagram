@@ -42,7 +42,7 @@ class CropperImageFragment : Fragment(R.layout.fragment_image_cropper) {
 
                     setFragmentResult("cropeKey", bundleOf(KEY_URI to result.uri))
 
-                    parentFragmentManager.popBackStack()
+                    parentFragmentManager.popBackStack()//Forçar o fragmento "voltar"
                 }
 
                 cropperBtnSave.setOnClickListener {

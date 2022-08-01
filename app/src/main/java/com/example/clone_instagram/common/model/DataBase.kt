@@ -9,6 +9,7 @@ import java.util.*
 object DataBase {
 
     val usersAuth = hashSetOf<UserAuth>() /**O hashSetOf permite que utilizamos o userAuth com indentificador único é uma lista de usuarios gravadas temporariamente*/
+    val photos = hashSetOf<Photo>()
 
     var sessionAuth : UserAuth? = null /**Referencia da sessão do usuario atual*/
 

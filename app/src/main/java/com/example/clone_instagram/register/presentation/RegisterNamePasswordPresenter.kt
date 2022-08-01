@@ -30,7 +30,6 @@ class RegisterNamePasswordPresenter(
             }else{
                 view?.displayPasswordFailure(null)
             }
-            view?.displayPasswordFailure(null)
         }
 
 
