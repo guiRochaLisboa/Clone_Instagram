@@ -12,6 +12,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.clone_instagram.R
 import com.example.clone_instagram.common.extension.hideKeyBoard
+import com.example.clone_instagram.common.extension.replaceFragment
 import com.example.clone_instagram.common.view.CropperImageFragment
 import com.example.clone_instagram.common.view.CropperImageFragment.Companion.KEY_URI
 import com.example.clone_instagram.databinding.ActivityRegisterBinding
@@ -26,7 +27,7 @@ import java.util.*
 class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
 
     private lateinit var bindign: ActivityRegisterBinding
-    private lateinit var currentPhoto : Uri
+    private lateinit var currentPhoto: Uri
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,11 +86,12 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
     }
 
     //open camera
-    private val getCamera = registerForActivityResult(ActivityResultContracts.TakePicture()){saved ->
-        if(saved){
-            openImageCropper(currentPhoto)
+    private val getCamera =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { saved ->
+            if (saved) {
+                openImageCropper(currentPhoto)
+            }
         }
-    }
 
     override fun goToCameraScreen() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -103,7 +105,8 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
             }
 
             photoFile?.also {
-                val photoUri = FileProvider.getUriForFile(this,"com.example.clone_instagram.fileprovider",it)
+                val photoUri =
+                    FileProvider.getUriForFile(this, "com.example.clone_instagram.fileprovider", it)
                 currentPhoto = photoUri
 
                 getCamera.launch(photoUri)
@@ -117,27 +120,15 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
     private fun createImageFile(): File {
         val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         var dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("JPEG_${timestamp}_",".jpg",dir)
+        return File.createTempFile("JPEG_${timestamp}_", ".jpg", dir)
     }
 
     private fun replaceFragment(fragment: Fragment) {
-        if (supportFragmentManager.findFragmentById(R.id.register_fragment) == null) {
-            supportFragmentManager.beginTransaction().apply {
-                add(R.id.register_fragment, fragment) //replace utilizado para trocar o fragment
-                commit()
-            }
-        } else {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.register_fragment, fragment) //replace utilizado para trocar o fragment
-                addToBackStack(null)
-                commit()
-            }
-        }
-
+        replaceFragment(R.id.register_fragment, fragment)
         hideKeyBoard()
     }
 
-    private fun openImageCropper(uri: Uri){
+    private fun openImageCropper(uri: Uri) {
         val fragment = CropperImageFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(KEY_URI, uri)

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clone_instagram.R
 
-class FragmentSearch : Fragment() {
+class SearchFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
