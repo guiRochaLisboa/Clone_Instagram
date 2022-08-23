@@ -14,7 +14,7 @@
         android:src="@drawable/ic_insta_profile_thin"
         app:civ_border_color="@color/gray_border"
         app:civ_border_width="1dp"
-        app:civ_circle_background_color="@color/gray_border"
+        app:civ_circle_background_color="@color/gray_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

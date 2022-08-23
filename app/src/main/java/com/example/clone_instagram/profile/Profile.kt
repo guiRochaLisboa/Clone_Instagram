@@ -7,17 +7,27 @@ import com.example.clone_instagram.common.model.UserAuth
 
 interface Profile {
 
-    interface Presenter : BasePresenter {
-        fun fetchUserProfile()
-        fun fetchUserPost()
+    interface StatefulPresenter<S : State> : BasePresenter {
+        fun subscribe(state: S?)
+        fun getState(): S
     }
 
-    interface View : BaseView<Presenter>{
+    interface State {
+        fun fetchUserProfile(): UserAuth?
+        fun fetchUserPost(): List<Post>?
+    }
+
+    interface Presenter : StatefulPresenter<State> {
+
+    }
+
+
+    interface View : BaseView<Presenter> {
         fun showProgress(enabled: Boolean)
-       fun displayUserProfile(userAuth: UserAuth)
-       fun displayRequestFailure(message: String)
-       fun displayEmptyPost()
-       fun displayFullPost(post: List<Post>)
+        fun displayUserProfile(userAuth: UserAuth)
+        fun displayRequestFailure(message: String)
+        fun displayEmptyPost()
+        fun displayFullPost(post: List<Post>)
     }
 
 }

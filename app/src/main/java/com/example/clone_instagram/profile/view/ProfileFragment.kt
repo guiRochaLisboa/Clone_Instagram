@@ -15,6 +15,7 @@ import com.example.clone_instagram.common.model.UserAuth
 import com.example.clone_instagram.databinding.FragmentProfileBinding
 import com.example.clone_instagram.profile.Profile
 import com.example.clone_instagram.profile.presentation.ProfilePresenter
+import com.example.clone_instagram.profile.presentation.ProfileState
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
     R.layout.fragment_profile,
@@ -33,13 +34,44 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileRv?.layoutManager = GridLayoutManager(requireContext(),3)
         binding?.profileRv?.adapter = adapter
 
-        presenter.fetchUserProfile()
-        presenter.fetchUserPost()
+//        presenter.fetchUserProfile()
+//        presenter.fetchUserPost()
     }
 
     override fun setpuPresenter() {
         val repository = DependencyInjector.profileRepository()
         presenter = ProfilePresenter(this,repository)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.subscribe(
+            if (savedInstanceState != null) {
+                ProfileState(
+                    (savedInstanceState.getParcelableArray("posts") as Array<Post>).toList(),
+                    savedInstanceState.getParcelable("user")
+                )
+            } else {
+                null
+            }
+        )
+    }
+
+
+//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+//        if(savedInstanceState != null){
+//           val state = savedInstanceState.getParcelable<UserAuth>("myState")
+//            state?.let {
+//                displayUserProfile(it)
+//            }
+//        }
+//        super.onViewStateRestored(savedInstanceState)
+//    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putParcelableArray("posts",presenter.getState().fetchUserPost()?.toTypedArray())
+        outState.putParcelable("user",presenter.getState().fetchUserProfile())
+        super.onSaveInstanceState(outState)
     }
 
     override fun getMenu(): Int {
@@ -56,7 +88,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileTxtFollowingCount?.text = userAuth.followingCount.toString()
         binding?.profileTxtUsername?.text = userAuth.name
         binding?.profileTxtBio?.text = "TODO"
-        presenter.fetchUserPost()
+//        presenter.fetchUserPost()
     }
 
     override fun displayRequestFailure(message: String) {
