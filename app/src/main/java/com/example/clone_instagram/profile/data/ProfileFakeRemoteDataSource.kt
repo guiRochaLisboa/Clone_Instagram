@@ -7,7 +7,7 @@ import com.example.clone_instagram.common.model.DataBase
 import com.example.clone_instagram.common.model.Post
 import com.example.clone_instagram.common.model.UserAuth
 
-class ProfileFakeDataSource : ProfileDataSource {
+class ProfileFakeRemoteDataSource : ProfileDataSource {
     override fun fetchUserProfile(userUUID: String, callback: RequestCallback<UserAuth>) {
         Handler(Looper.getMainLooper()).postDelayed({
 
@@ -34,4 +34,5 @@ class ProfileFakeDataSource : ProfileDataSource {
         }, 2000)
 
     }
+
 }
