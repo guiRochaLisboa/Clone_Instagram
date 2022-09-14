@@ -12,6 +12,7 @@ object DataBase {
     val usersAuth = hashSetOf<UserAuth>() /**O hashSetOf permite que utilizamos o userAuth com indentificador único é uma lista de usuarios gravadas temporariamente*/
     val photos = hashSetOf<Photo>()
     val posts = hashMapOf<String,Set<Post>>()
+    val feeds = hashMapOf<String,Set<Post>>()
 
     /**
      * Estrutura do posts
