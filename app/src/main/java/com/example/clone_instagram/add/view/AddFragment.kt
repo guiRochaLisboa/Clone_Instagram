@@ -5,10 +5,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import com.example.clone_instagram.R
 import com.example.clone_instagram.add.Add
 import com.example.clone_instagram.common.base.BaseFragment
 import com.example.clone_instagram.databinding.FragmentAddBinding
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.jar.Manifest
 
@@ -30,6 +33,22 @@ class AddFragment : BaseFragment<FragmentAddBinding, Add.Presenter>(
         viewPager?.adapter = adapter
 
         if (tabLayout != null && viewPager != null) {
+            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                if(tab?.text == getString(adapter.tabs[0])){
+                    startCamera()
+                }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+
+                }
+
+            })
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = getString(adapter.tabs[position])
             }.attach()
@@ -42,7 +61,7 @@ class AddFragment : BaseFragment<FragmentAddBinding, Add.Presenter>(
     }
 
     private fun startCamera(){
-        Log.i("Teste:","Teste da camera")
+        setFragmentResult("cameraKey", bundleOf("startCamera" to true))
     }
 
     private val getPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){_ ->
