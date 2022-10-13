@@ -3,7 +3,6 @@ package com.example.clone_instagram.main.view
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.MenuItem
 import android.view.WindowInsetsController
 import androidx.annotation.RequiresApi
@@ -11,7 +10,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.clone_instagram.R
-import com.example.clone_instagram.camera.view.CameraFragment
+import com.example.clone_instagram.add.view.AddFragment
+import com.example.clone_instagram.add.view.CameraFragment
 import com.example.clone_instagram.common.extension.replaceFragment
 import com.example.clone_instagram.databinding.ActivityMainBinding
 import com.example.clone_instagram.home.view.HomeFragment
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var homeFragment: HomeFragment
-    private lateinit var cameraFragment: CameraFragment
+    private lateinit var addFragment: AddFragment
     private  lateinit var profileFragment: ProfileFragment
     private lateinit var searchFragment: SearchFragment
     private var currentFragment: Fragment? = null
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setSupportActionBar(toolbar)
 
         homeFragment = HomeFragment()
-        cameraFragment = CameraFragment()
+        addFragment = AddFragment()
         profileFragment = ProfileFragment()
         searchFragment = SearchFragment()
 
@@ -100,8 +100,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 currentFragment = searchFragment
             }
             R.id.menu_bottom_add ->{
-                if (currentFragment == cameraFragment)return false
-                currentFragment = cameraFragment
+                if (currentFragment == addFragment)return false
+                currentFragment = addFragment
             }
             R.id.menu_bottom_profile ->{
                 if (currentFragment == profileFragment)return false
