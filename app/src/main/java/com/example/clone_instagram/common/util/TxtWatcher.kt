@@ -1,4 +1,4 @@
-package com.example.clone_instagram.common.view
+package com.example.clone_instagram.common.util
 
 import android.text.Editable
 import android.text.TextWatcher

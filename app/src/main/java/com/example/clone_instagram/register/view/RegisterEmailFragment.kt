@@ -7,7 +7,7 @@ import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.example.clone_instagram.R
-import com.example.clone_instagram.common.view.TxtWatcher
+import com.example.clone_instagram.common.util.TxtWatcher
 import com.example.clone_instagram.common.base.DependencyInjector
 import com.example.clone_instagram.databinding.FragmentRegisterEmailBinding
 import com.example.clone_instagram.register.RegisterEmail

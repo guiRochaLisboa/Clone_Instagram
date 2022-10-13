@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.clone_instagram.common.view.TxtWatcher
+import com.example.clone_instagram.common.util.TxtWatcher
 import com.example.clone_instagram.common.base.DependencyInjector
 import com.example.clone_instagram.databinding.ActivityLoginBinding
 import com.example.clone_instagram.login.Login
