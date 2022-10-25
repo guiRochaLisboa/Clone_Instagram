@@ -45,6 +45,11 @@ class FakeRegisterDataSource : RegisterDataSource {
 
                     if (created){
                         DataBase.sessionAuth = newUser
+
+                        DataBase.followers[newUser.uuid] = hashSetOf()
+                        DataBase.posts[newUser.uuid] = hashSetOf()
+                        DataBase.feeds[newUser.uuid] = hashSetOf()
+
                         callback.onSuccess()
                     }else{
                         callback.onFailure("Erro interno no servidor")
