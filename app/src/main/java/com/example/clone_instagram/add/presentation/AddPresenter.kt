@@ -1,4 +1,4 @@
-package com.example.clone_instagram.add.data.presentation
+package com.example.clone_instagram.add.presentation
 
 import android.net.Uri
 import com.example.clone_instagram.add.Add

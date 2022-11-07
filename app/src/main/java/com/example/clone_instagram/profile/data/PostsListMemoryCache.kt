@@ -1,9 +1,10 @@
 package com.example.clone_instagram.profile.data
 
+import com.example.clone_instagram.common.base.Cache
 import com.example.clone_instagram.common.model.Post
 import com.example.clone_instagram.common.model.UserAuth
 
-object PostsListMemoryCache : ProfileCache<List<Post>>{
+object PostsListMemoryCache : Cache<List<Post>> {
 
     private var posts: List<Post>? = null
 
@@ -16,7 +17,7 @@ object PostsListMemoryCache : ProfileCache<List<Post>>{
         return posts
     }
 
-    override fun put(data: List<Post>) {
+    override fun put(data: List<Post>?) {
         posts = data
     }
 }

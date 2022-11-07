@@ -20,7 +20,7 @@ import com.example.clone_instagram.search.view.SearchFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, AddFragment.AddListerner {
 
 
     private lateinit var binding: ActivityMainBinding
@@ -117,6 +117,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
 
         return true
+    }
+
+    override fun onPostCreated() {
+        homeFragment.presenter.clear()
+
+        if(supportFragmentManager.findFragmentByTag(profileFragment.javaClass.simpleName) != null){
+            profileFragment.presenter.clear()
+        }
+
+       binding.mainBottomNav.selectedItemId = R.id.menu_bottom_home
     }
 
 

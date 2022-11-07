@@ -3,6 +3,7 @@ package com.example.clone_instagram.add.view
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.util.Size
 import android.view.*
 import android.widget.Button
 import androidx.camera.core.CameraSelector
@@ -93,6 +94,7 @@ class CameraFragment : Fragment() {
                 }
 
             imageCapture = ImageCapture.Builder()
+                .setTargetResolution(Size(480,480))
                 .build()
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA

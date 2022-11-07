@@ -15,6 +15,6 @@ interface ProfileDataSource {
 
     fun putUser(response: UserAuth){ throw UnsupportedOperationException()} //Método não suportado se não for subscrito
 
-    fun putPosts(response: List<Post>){ throw UnsupportedOperationException()} //Método não suportado se não for subscrito
+    fun putPosts(response: List<Post>?){ throw UnsupportedOperationException()} //Método não suportado se não for subscrito
 
 }

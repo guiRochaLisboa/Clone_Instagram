@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.clone_instagram.R
 import com.example.clone_instagram.add.Add
-import com.example.clone_instagram.add.data.presentation.AddPresenter
+import com.example.clone_instagram.add.presentation.AddPresenter
 import com.example.clone_instagram.common.base.DependencyInjector
 import com.example.clone_instagram.databinding.ActivityAddBinding
 import java.lang.RuntimeException
@@ -69,6 +69,7 @@ class AddActivity : AppCompatActivity(),Add.View {
     }
 
     override fun displayRequestSuccess() {
+        setResult(RESULT_OK)
         finish()
     }
 

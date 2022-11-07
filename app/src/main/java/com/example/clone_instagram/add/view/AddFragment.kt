@@ -1,5 +1,7 @@
 package com.example.clone_instagram.add.view
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -26,6 +28,7 @@ class AddFragment : Fragment(
 ){
 
     private var binding: FragmentAddBinding? = null
+    private var addListerner: AddListerner? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +38,15 @@ class AddFragment : Fragment(
             uri?.let {
                 val intent = Intent(requireContext(),AddActivity::class.java)
                 intent.putExtra("photoUri",uri)
-                startActivity(intent)
+                addActivityResult.launch(intent)
             }
+        }
+    }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is AddListerner){
+            addListerner = context
         }
     }
 
@@ -92,6 +101,13 @@ class AddFragment : Fragment(
         setFragmentResult("cameraKey", bundleOf("startCamera" to true))
     }
 
+
+    private val addActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if(it.resultCode == Activity.RESULT_OK){
+            addListerner?.onPostCreated()
+        }
+    }
+
     private val getPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){_ ->
     if(allPermissionsGranted()){
         startCamera()
@@ -103,6 +119,10 @@ class AddFragment : Fragment(
 
     private fun allPermissionsGranted() =
         ContextCompat.checkSelfPermission(requireContext(), REQUIRED_PERMISSION) == PackageManager.PERMISSION_GRANTED
+
+    interface AddListerner {
+        fun onPostCreated()
+    }
 
     companion object {
         private const val REQUIRED_PERMISSION = android.Manifest.permission.CAMERA

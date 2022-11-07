@@ -1,5 +1,6 @@
 package com.example.clone_instagram.profile.data
 
+import com.example.clone_instagram.common.base.Cache
 import com.example.clone_instagram.common.base.RequestCallback
 import com.example.clone_instagram.common.model.DataBase
 import com.example.clone_instagram.common.model.Post
@@ -7,8 +8,8 @@ import com.example.clone_instagram.common.model.UserAuth
 import java.lang.RuntimeException
 
 class ProfileLocalDataSource(
-    private val profileCache : ProfileCache<UserAuth>,
-    private val posstCache : ProfileCache<List<Post>>
+    private val profileCache : Cache<UserAuth>,
+    private val posstCache : Cache<List<Post>>
 ) : ProfileDataSource {
     override fun fetchUserProfile(userUUID: String, callback: RequestCallback<UserAuth>) {
        val userAuth = profileCache.get(userUUID)
@@ -38,7 +39,7 @@ class ProfileLocalDataSource(
         profileCache.put(response)
     }
 
-    override fun putPosts(response: List<Post>) {
+    override fun putPosts(response: List<Post>?) {
         posstCache.put(response)
     }
 }

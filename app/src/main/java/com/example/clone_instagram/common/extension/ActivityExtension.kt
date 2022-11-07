@@ -32,12 +32,12 @@ fun Activity.animationEnd(callback: () -> Unit) : AnimatorListenerAdapter {
 fun AppCompatActivity.replaceFragment(id: Int,fragment: Fragment){
     if (supportFragmentManager.findFragmentById(id) == null) {
         supportFragmentManager.beginTransaction().apply {
-            add(id, fragment) //replace utilizado para trocar o fragment
+            add(id, fragment,fragment.javaClass.simpleName) //replace utilizado para trocar o fragment
             commit()
         }
     } else {
         supportFragmentManager.beginTransaction().apply {
-            replace(id, fragment) //replace utilizado para trocar o fragment
+            replace(id, fragment,fragment.javaClass.simpleName) //replace utilizado para trocar o fragment
             addToBackStack(null)
             commit()
         }

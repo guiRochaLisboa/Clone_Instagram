@@ -61,6 +61,10 @@ class ProfilePresenter(
         })
     }
 
+    override fun clear() {
+        repository.clearCache()
+    }
+
 
     override fun onDestroy() {
         view = null

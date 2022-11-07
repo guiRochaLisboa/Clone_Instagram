@@ -8,12 +8,12 @@ import com.example.clone_instagram.common.model.UserAuth
 import java.lang.RuntimeException
 
 class HomeLocalDataSource(
-    private val feedCache : Cache<List<Post>>
+    private val feedCache : Cache<List<Post>>?
 ) : HomeDataSource {
 
 
     override fun fetchFeed(userUUID: String, callback: RequestCallback<List<Post>>) {
-        val posts = feedCache.get(userUUID)
+        val posts = feedCache?.get(userUUID)
         if (posts != null){
             callback.onSucess(posts)
         }else{
@@ -22,8 +22,8 @@ class HomeLocalDataSource(
         callback.onComplete()
     }
 
-    override fun putFeed(response: List<Post>) {
-       feedCache.put(response)
+    override fun putFeed(response: List<Post>?) {
+       feedCache?.put(response)
     }
 
 
