@@ -1,4 +1,4 @@
-package com.example.clone_instagram.add.view
+package com.example.clone_instagram.post.view
 
 import android.net.Uri
 import android.os.Bundle
@@ -19,7 +19,6 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.example.clone_instagram.R
 import com.example.clone_instagram.common.util.Files
-import com.example.clone_instagram.databinding.ButtonLoadingBinding
 import java.lang.Exception
 
 class CameraFragment : Fragment() {

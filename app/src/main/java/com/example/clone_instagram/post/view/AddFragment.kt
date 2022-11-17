@@ -1,4 +1,4 @@
-package com.example.clone_instagram.add.view
+package com.example.clone_instagram.post.view
 
 import android.app.Activity
 import android.content.Context
@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,12 +15,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.example.clone_instagram.R
-import com.example.clone_instagram.add.Add
-import com.example.clone_instagram.common.base.BaseFragment
+import com.example.clone_instagram.add.view.AddActivity
 import com.example.clone_instagram.databinding.FragmentAddBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import java.util.jar.Manifest
 
 class AddFragment : Fragment(
     R.layout.fragment_add,
@@ -36,7 +33,7 @@ class AddFragment : Fragment(
         setFragmentResultListener("takePhotoKey"){requestKey, bundle ->
             val uri = bundle.getParcelable<Uri>("uri")
             uri?.let {
-                val intent = Intent(requireContext(),AddActivity::class.java)
+                val intent = Intent(requireContext(), AddActivity::class.java)
                 intent.putExtra("photoUri",uri)
                 addActivityResult.launch(intent)
             }
@@ -108,7 +105,7 @@ class AddFragment : Fragment(
         }
     }
 
-    private val getPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){_ ->
+    private val getPermission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){_ ->
     if(allPermissionsGranted()){
         startCamera()
     }else{
@@ -118,13 +115,14 @@ class AddFragment : Fragment(
     }
 
     private fun allPermissionsGranted() =
-        ContextCompat.checkSelfPermission(requireContext(), REQUIRED_PERMISSION) == PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(requireContext(), REQUIRED_PERMISSION[0]) == PackageManager.PERMISSION_GRANTED
+                &&  ContextCompat.checkSelfPermission(requireContext(), REQUIRED_PERMISSION[1]) == PackageManager.PERMISSION_GRANTED
 
     interface AddListerner {
         fun onPostCreated()
     }
 
     companion object {
-        private const val REQUIRED_PERMISSION = android.Manifest.permission.CAMERA
+        private val REQUIRED_PERMISSION = arrayOf(android.Manifest.permission.CAMERA,android.Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 }
