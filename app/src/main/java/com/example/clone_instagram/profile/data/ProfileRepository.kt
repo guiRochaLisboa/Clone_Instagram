@@ -74,7 +74,7 @@ class ProfileRepository(private val dataSourceFactory: ProfileDataSourceFactory)
             }
 
             override fun onComplete() {
-            onComplete()
+            callback.onComplete()
             }
 
         })
