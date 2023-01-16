@@ -14,6 +14,8 @@ import com.example.clone_instagram.post.data.PostRepository
 import com.example.clone_instagram.profile.data.*
 import com.example.clone_instagram.register.data.FakeRegisterDataSource
 import com.example.clone_instagram.register.data.RegisterRepository
+import com.example.clone_instagram.search.data.SearchFakeRemoteDataSource
+import com.example.clone_instagram.search.data.SearchRepository
 import com.example.clone_instagram.splash.data.FakeLocalDataSource
 import com.example.clone_instagram.splash.data.SplashRepository
 
@@ -28,6 +30,10 @@ object DependencyInjector {
 
     fun registerEmaiRepository() : RegisterRepository{
         return RegisterRepository(FakeRegisterDataSource())
+    }
+
+    fun searchRepository() : SearchRepository {
+        return SearchRepository(SearchFakeRemoteDataSource())
     }
 
     fun profileRepository() : ProfileRepository{

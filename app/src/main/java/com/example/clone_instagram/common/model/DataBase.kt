@@ -13,7 +13,7 @@ object DataBase {
     val usersAuth = mutableListOf<UserAuth>() /**O hashSetOf permite que utilizamos o userAuth com indentificador único é uma lista de usuarios gravadas temporariamente*/
     val posts = hashMapOf<String,MutableSet<Post>>()
     val feeds = hashMapOf<String,MutableSet<Post>>()
-    val followers = hashMapOf<String,Set<String>>()
+    val followers = hashMapOf<String,MutableSet<String>>()
 
     /**
      * Estrutura do posts
@@ -26,6 +26,7 @@ object DataBase {
     init {
         val userA = UserAuth(UUID.randomUUID().toString(),"UserA","userA@gmail.com","12345678",null)
         val userB = UserAuth(UUID.randomUUID().toString(),"UserB","userB@gmail.com","87654321",null)
+
         usersAuth.add(userA)
         usersAuth.add(userB)
 
@@ -37,14 +38,15 @@ object DataBase {
         posts[userB.uuid] = hashSetOf()
         feeds[userB.uuid] = hashSetOf()
 
-        /*feeds[userA.uuid]?.addAll(
-            arrayListOf(
-                Post(UUID.randomUUID().toString(), Uri.fromFile(""))
-            )
-        )*/
+        for (i in 0..30){
+            val user = UserAuth(UUID.randomUUID().toString(),"User$i", "user$i@gmail.com", "123123123",null)
+            usersAuth.add(user)
+        }
 
 
         sessionAuth = usersAuth.first()
+
+        followers[sessionAuth!!.uuid]?.add(usersAuth[2].uuid)
     }
 
 }

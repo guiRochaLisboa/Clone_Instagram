@@ -31,9 +31,10 @@ class FeedAdapter : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
 
         class FeedViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
             fun bind(posts: Post) {
-                itemView.findViewById<ImageView>(R.id.home_img_post).setImageURI(posts.uri)
+                itemView.findViewById<TextView>(R.id.home_txt_username).text = posts.publisher.name
                 itemView.findViewById<TextView>(R.id.home_txt_caption).text = posts.caption
+                itemView.findViewById<ImageView>(R.id.home_img_post).setImageURI(posts.uri)
+                itemView.findViewById<ImageView>(R.id.home_img_user).setImageURI(posts.publisher.photoUri)
             }
         }
-
     }

@@ -3,6 +3,7 @@ package com.example.clone_instagram.main.view
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.WindowInsetsController
 import androidx.annotation.RequiresApi
@@ -19,7 +20,8 @@ import com.example.clone_instagram.search.view.SearchFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, AddFragment.AddListerner {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, AddFragment.AddListerner,
+SearchFragment.SearchLisener{
 
 
     private lateinit var binding: ActivityMainBinding
@@ -97,6 +99,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             R.id.menu_bottom_search -> {
                 if (currentFragment == searchFragment)return false
                 currentFragment = searchFragment
+                scrollToolbarEnbled = false
             }
             R.id.menu_bottom_add ->{
                 if (currentFragment == addFragment)return false
@@ -127,6 +130,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
 
        binding.mainBottomNav.selectedItemId = R.id.menu_bottom_home
+    }
+
+    override fun goToProfile(uuid: String) {
+        val fragment = ProfileFragment().apply {
+            arguments = Bundle().apply {
+                putString(ProfileFragment.KEY_USER_ID,uuid)
+            }
+        }
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.main_fragment,fragment,fragment.javaClass.simpleName + "detail")
+            addToBackStack(null)
+            commit()
+        }
     }
 
 
