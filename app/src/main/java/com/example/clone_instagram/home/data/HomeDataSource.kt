@@ -10,7 +10,7 @@ interface HomeDataSource {
 
     fun fetchFeed(userUUID: String,callback: RequestCallback<List<Post>>)
 
-    fun fetchSession() : UserAuth{ throw UnsupportedOperationException()} //Método não suportado se não for subscrito
+    fun fetchSession() : String{ throw UnsupportedOperationException()} //Método não suportado se não for subscrito
 
     fun putFeed(response: List<Post>?){ throw UnsupportedOperationException()} //Método não suportado se não for subscrito
 

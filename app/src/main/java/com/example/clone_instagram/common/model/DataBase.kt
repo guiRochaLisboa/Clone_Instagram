@@ -28,11 +28,11 @@ object DataBase {
     /**Referencia da sessão do usuario atual*/
 
     init {
-        val userA =
-            UserAuth(UUID.randomUUID().toString(), "UserA", "userA@gmail.com", "12345678", null)
+//        val userA =
+//            UserAuth(UUID.randomUUID().toString(), "UserA", "userA@gmail.com", "12345678", null)
 //        val userB = UserAuth(UUID.randomUUID().toString(),"UserB","userB@gmail.com","87654321",null)
 //
-        usersAuth.add(userA)
+    //      usersAuth.add(userA)
 //        usersAuth.add(userB)
 //
 //        followers[userA.uuid] = hashSetOf()
@@ -49,7 +49,7 @@ object DataBase {
 //        }
 
 
-        sessionAuth = usersAuth.first()
+//        sessionAuth = usersAuth.first()
 
         // followers[sessionAuth!!.uuid]?.add(usersAuth[2].uuid)
     }

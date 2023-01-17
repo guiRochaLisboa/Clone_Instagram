@@ -6,22 +6,23 @@ import android.provider.ContactsContract
 import com.example.clone_instagram.common.base.RequestCallback
 import com.example.clone_instagram.common.model.DataBase
 import com.example.clone_instagram.common.model.Post
+import com.example.clone_instagram.common.model.User
 import com.example.clone_instagram.common.model.UserAuth
 
 class ProfileFakeRemoteDataSource : ProfileDataSource {
-    override fun fetchUserProfile(userUUID: String, callback: RequestCallback<Pair<UserAuth,Boolean?>>) {
+    override fun fetchUserProfile(userUUID: String, callback: RequestCallback<Pair<User,Boolean?>>) {
         Handler(Looper.getMainLooper()).postDelayed({
 
             val userAuth = DataBase.usersAuth.firstOrNull { userUUID == it.uuid }
 
             if (userAuth != null) {
                 if(userAuth == DataBase.sessionAuth){
-                    callback.onSucess(Pair(userAuth,null))
+                //TODO: remover essa classe    callback.onSucess(Pair(userAuth,null))
                 }else{
                     val following = DataBase.followers[DataBase.sessionAuth!!.uuid]
                     val destUser = following?.firstOrNull { it == userUUID }
 
-                    callback.onSucess(Pair(userAuth,destUser != null))
+                //TODO: remover essa classe    callback.onSucess(Pair(userAuth,destUser != null))
                 }
             } else {
                 callback.onFailure("Usuário não encontrado")

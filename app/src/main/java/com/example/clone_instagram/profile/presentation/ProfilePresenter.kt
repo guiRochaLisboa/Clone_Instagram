@@ -6,6 +6,7 @@ import com.example.clone_instagram.R
 import com.example.clone_instagram.common.base.RequestCallback
 import com.example.clone_instagram.common.model.DataBase
 import com.example.clone_instagram.common.model.Post
+import com.example.clone_instagram.common.model.User
 import com.example.clone_instagram.common.model.UserAuth
 import com.example.clone_instagram.profile.Profile
 import com.example.clone_instagram.profile.data.ProfileRepository
@@ -24,8 +25,8 @@ class ProfilePresenter(
 
     override fun fetchUserProfile(uuid: String?) {
         view?.showProgress(true)
-        repository.fetchUserProfile(uuid,object : RequestCallback<Pair<UserAuth,Boolean?>> {
-            override fun onSucess(data: Pair<UserAuth,Boolean?>) {
+        repository.fetchUserProfile(uuid,object : RequestCallback<Pair<User,Boolean?>> {
+            override fun onSucess(data: Pair<User,Boolean?>) {
                 view?.displayUserProfile(data)
             }
 
