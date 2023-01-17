@@ -26,7 +26,8 @@ class AddFakeRemoteDataSource : AddDataSource {
                 DataBase.posts[userUUID] = posts
             }
 
-            val post = Post(UUID.randomUUID().toString(),uri,caption,System.currentTimeMillis(),DataBase.sessionAuth!!)
+            //TODO: Remover essa classe
+            val post = Post(UUID.randomUUID().toString(),null,caption,System.currentTimeMillis(),null)
 
             posts.add(post)
 

@@ -8,6 +8,7 @@ import com.example.clone_instagram.home.data.FeedMemoryCache
 import com.example.clone_instagram.home.data.HomeDataSourceFactory
 import com.example.clone_instagram.home.data.HomeRepository
 import com.example.clone_instagram.login.data.FakeDataSource
+import com.example.clone_instagram.login.data.FireLoginDataSource
 import com.example.clone_instagram.login.data.LoginRepository
 import com.example.clone_instagram.post.data.PostLocalDataSource
 import com.example.clone_instagram.post.data.PostRepository
@@ -18,16 +19,17 @@ import com.example.clone_instagram.register.data.RegisterRepository
 import com.example.clone_instagram.search.data.SearchFakeRemoteDataSource
 import com.example.clone_instagram.search.data.SearchRepository
 import com.example.clone_instagram.splash.data.FakeLocalDataSource
+import com.example.clone_instagram.splash.data.FireSplashLocalDataSource
 import com.example.clone_instagram.splash.data.SplashRepository
 
 object DependencyInjector {
 
     fun splashRepository() : SplashRepository{
-        return SplashRepository(FakeLocalDataSource())
+        return SplashRepository(FireSplashLocalDataSource())
     }
 
     fun loginRepository() : LoginRepository{
-        return LoginRepository(FakeDataSource())
+        return LoginRepository(FireLoginDataSource())
     }
 
     fun registerEmaiRepository() : RegisterRepository{

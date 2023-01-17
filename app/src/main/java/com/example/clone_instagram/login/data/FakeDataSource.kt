@@ -21,7 +21,7 @@ class FakeDataSource : LoginDataSource {
                 }
                 else -> {
                     DataBase.sessionAuth = userAuth
-                    callback.onSuccess(userAuth)
+                    callback.onSuccess()
                 }
             }
 
