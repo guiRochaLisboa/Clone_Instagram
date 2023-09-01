@@ -16,7 +16,7 @@ interface ProfileDataSource {
 
     fun followUser(userUUID: String,isFollow: Boolean,callback: RequestCallback<Boolean>) { throw UnsupportedOperationException()}
 
-    fun putUser(response: Pair<User,Boolean?>){ throw UnsupportedOperationException()} //Método não suportado se não for subscrito
+    fun putUser(response: Pair<User,Boolean?>?){ throw UnsupportedOperationException()} //Método não suportado se não for subscrito
 
     fun putPosts(response: List<Post>?){ throw UnsupportedOperationException()} //Método não suportado se não for subscrito
 

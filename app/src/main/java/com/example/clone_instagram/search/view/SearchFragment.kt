@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.clone_instagram.R
 import com.example.clone_instagram.common.base.BaseFragment
 import com.example.clone_instagram.common.base.DependencyInjector
+import com.example.clone_instagram.common.model.User
 import com.example.clone_instagram.common.model.UserAuth
 import com.example.clone_instagram.databinding.FragmentSearchBinding
 import com.example.clone_instagram.search.Search
@@ -86,7 +87,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,Search.Presenter>(
         binding?.searchProgress?.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 
-    override fun displayFullUser(user: List<UserAuth>) {
+    override fun displayFullUser(user: List<User>) {
         binding?.searchTxtEmpty?.visibility = View.GONE
         binding?.searchRv?.visibility = View.VISIBLE
         adapter.items = user

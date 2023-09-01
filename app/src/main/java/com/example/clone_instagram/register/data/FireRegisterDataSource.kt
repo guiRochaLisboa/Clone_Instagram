@@ -43,7 +43,7 @@ class FireRegisterDataSource : RegisterDataSource{
                             hashMapOf(
                                 "name" to name,
                                 "email" to email,
-                                "follower" to 0,
+                                "followers" to 0,
                                 "following" to 0,
                                 "postCount" to 0,
                                 "uuid" to uid,
@@ -80,7 +80,7 @@ class FireRegisterDataSource : RegisterDataSource{
             .addOnSuccessListener {result ->
             //Aqui a foto já está no FireStorage
                 imgRef.downloadUrl
-                    .addOnSuccessListener { res ->
+                    .addOnCompleteListener { res ->
                         val usersRef = FirebaseFirestore.getInstance().collection("/users").document(uid)
                         usersRef.get()
                             .addOnSuccessListener { documents ->

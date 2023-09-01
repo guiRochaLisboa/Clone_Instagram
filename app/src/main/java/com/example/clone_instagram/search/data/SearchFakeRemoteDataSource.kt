@@ -5,16 +5,17 @@ import android.os.Looper
 import com.example.clone_instagram.common.base.RequestCallback
 import com.example.clone_instagram.common.model.DataBase
 import com.example.clone_instagram.common.model.Post
+import com.example.clone_instagram.common.model.User
 import com.example.clone_instagram.common.model.UserAuth
 
 class SearchFakeRemoteDataSource : SearchDataSource {
 
-    override fun fetchUsers(name: String, callback: RequestCallback<List<UserAuth>>) {
+    override fun fetchUsers(name: String, callback: RequestCallback<List<User>>) {
         Handler(Looper.getMainLooper()).postDelayed({
                 val users = DataBase.usersAuth.filter {
                     it.name.lowercase().startsWith(name.lowercase()) && it.uuid != DataBase.sessionAuth!!.uuid
                 }
-            callback.onSucess(users.toList())
+        //TODO: remover classe    callback.onSucess(users.toList())
 
             callback.onComplete()
         }, 2000)

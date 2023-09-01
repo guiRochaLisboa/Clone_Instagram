@@ -22,6 +22,7 @@ interface Profile {
         fun displayRequestFailure(message: String)
         fun displayEmptyPost()
         fun displayFullPost(post: List<Post>)
+        fun followUpdate()
     }
 
 }

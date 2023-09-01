@@ -1,6 +1,7 @@
 package com.example.clone_instagram.register.view
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.ImageDecoder
 import android.media.Image
 import android.net.Uri
@@ -12,14 +13,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.example.clone_instagram.R
 import com.example.clone_instagram.common.base.DependencyInjector
+import com.example.clone_instagram.common.base.RequestCallback
 import com.example.clone_instagram.common.view.CropperImageFragment.Companion.KEY_URI
 import com.example.clone_instagram.common.view.CustomDialog
 import com.example.clone_instagram.databinding.FragmentRegisterPhotoBinding
+import com.example.clone_instagram.post.view.AddFragment
 import com.example.clone_instagram.register.RegisterPhoto
 import com.example.clone_instagram.register.presentation.RegisterPhotoPresenter
 
@@ -89,7 +94,11 @@ class RegisterPhotoFragment : Fragment(R.layout.fragment_register_photo),Registe
         customDialog.addButton(R.string.photo, R.string.gallery) {
             when (it.id) {
                 R.string.photo -> {
-                    attachListener?.goToCameraScreen()
+                    if(allPermissionsGranted()){
+                        attachListener?.goToCameraScreen()
+                    }else{
+                    getPermission.launch(REQUIRED_PERMISSION)
+                        }
                 }
                 R.string.gallery -> {
                     attachListener?.goToGalleryScreen()
@@ -99,6 +108,18 @@ class RegisterPhotoFragment : Fragment(R.layout.fragment_register_photo),Registe
         }
         customDialog.show()
     }
+
+    private val getPermission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ _ ->
+        if(allPermissionsGranted()){
+            attachListener?.goToCameraScreen()
+        }else{
+            Toast.makeText(requireContext(),R.string.permission_camera_denied,Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun allPermissionsGranted() =
+        ContextCompat.checkSelfPermission(requireContext(), REQUIRED_PERMISSION[0]) == PackageManager.PERMISSION_GRANTED
 
     private fun onCropImageResult(uri: Uri?) {
         if (uri != null){
@@ -112,6 +133,10 @@ class RegisterPhotoFragment : Fragment(R.layout.fragment_register_photo),Registe
 
             presenter.updateUser(uri)
         }
+    }
+
+    companion object {
+        private val REQUIRED_PERMISSION = arrayOf(android.Manifest.permission.CAMERA)
     }
 
 

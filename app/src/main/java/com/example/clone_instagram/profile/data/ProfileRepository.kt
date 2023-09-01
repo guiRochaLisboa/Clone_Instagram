@@ -10,6 +10,7 @@ class ProfileRepository(private val dataSourceFactory: ProfileDataSourceFactory)
     fun clearCache() {
         val localDataSource = dataSourceFactory.createLocalDataSource()
         localDataSource.putPosts(null)
+        localDataSource.putUser(null)
     }
 
     fun fetchUserProfile(uuid: String?, callback: RequestCallback<Pair<User,Boolean?>>) {

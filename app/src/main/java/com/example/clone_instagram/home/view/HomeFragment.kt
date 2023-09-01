@@ -1,6 +1,8 @@
 package com.example.clone_instagram.home.view
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +13,7 @@ import com.example.clone_instagram.common.model.Post
 import com.example.clone_instagram.databinding.FragmentHomeBinding
 import com.example.clone_instagram.home.Home
 import com.example.clone_instagram.home.presenter.HomePresenter
+import com.example.clone_instagram.main.LogoutListener
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, Home.Presenter>(
     R.layout.fragment_home,
@@ -21,6 +24,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, Home.Presenter>(
     override lateinit var presenter: Home.Presenter
 
     private val adapter = FeedAdapter()
+
+    private var logoutListener : LogoutListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is LogoutListener){
+            logoutListener = context
+        }
+    }
 
     override fun setupViews() {
         binding?.homeRv?.layoutManager = LinearLayoutManager(requireContext())
@@ -60,6 +72,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, Home.Presenter>(
         binding?.homeRv?.visibility = View.VISIBLE
         adapter.items = post
         adapter.notifyDataSetChanged()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_logout -> {
+                logoutListener?.logout()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

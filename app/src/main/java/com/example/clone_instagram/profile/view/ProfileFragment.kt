@@ -1,5 +1,6 @@
 package com.example.clone_instagram.profile.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
@@ -14,6 +15,7 @@ import com.example.clone_instagram.common.model.Post
 import com.example.clone_instagram.common.model.User
 import com.example.clone_instagram.common.model.UserAuth
 import com.example.clone_instagram.databinding.FragmentProfileBinding
+import com.example.clone_instagram.main.LogoutListener
 import com.example.clone_instagram.profile.Profile
 import com.example.clone_instagram.profile.presentation.ProfilePresenter
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -27,6 +29,19 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
 
     private val adapter = PostAdapter()
     private var uuid: String? = null
+
+    private var logoutListener : LogoutListener? = null
+    private var followListener: FollowListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is LogoutListener){
+            logoutListener = context
+        }
+        if(context is FollowListener){
+            followListener = context
+        }
+    }
 
 
     /**
@@ -71,7 +86,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         val (userAuth, following) = user
 
         binding?.profileTxtPostsCount?.text = userAuth.postCount.toString()
-        binding?.profileTxtFollowersCount?.text = userAuth.follower.toString()
+        binding?.profileTxtFollowersCount?.text = userAuth.followers.toString()
         binding?.profileTxtFollowingCount?.text = userAuth.following.toString()
         binding?.profileTxtUsername?.text = userAuth.name
         binding?.profileTxtBio?.text = "TODO"
@@ -107,6 +122,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
 
     }
 
+    override fun followUpdate() {
+        followListener?.followUpdate()
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_profile_grid -> {
@@ -117,6 +136,20 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
             }
         }
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_logout -> {
+                logoutListener?.logout()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    interface FollowListener {
+        fun followUpdate()
     }
 
     companion object {

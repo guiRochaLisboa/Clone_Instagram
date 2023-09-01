@@ -35,7 +35,10 @@ class FireHomeDataSource : HomeDataSource {
                 callback.onFailure(exception.message ?: "Erro ao carregar o feed")
             }
             .addOnCompleteListener { callback.onComplete() }
+    }
 
+    override fun logout() {
+        FirebaseAuth.getInstance().signOut()
     }
 
 }

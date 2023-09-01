@@ -12,6 +12,10 @@ class HomeDataSourceFactory(
         return HomeLocalDataSource(feedCache)
     }
 
+    fun createRemoteDataSource() : HomeDataSource{
+        return FireHomeDataSource()
+    }
+
     fun createFromFeed() : HomeDataSource{
         return if(feedCache.isCache()){
             HomeLocalDataSource(feedCache)

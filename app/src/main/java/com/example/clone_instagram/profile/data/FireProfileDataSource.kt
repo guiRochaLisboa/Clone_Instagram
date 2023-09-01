@@ -1,12 +1,17 @@
 package com.example.clone_instagram.profile.data
 
+import android.content.IntentSender
 import com.example.clone_instagram.common.base.RequestCallback
 import com.example.clone_instagram.common.model.Post
 import com.example.clone_instagram.common.model.User
 import com.example.clone_instagram.common.model.UserAuth
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
+import java.lang.RuntimeException
 
 class FireProfileDataSource : ProfileDataSource {
 
@@ -14,37 +19,54 @@ class FireProfileDataSource : ProfileDataSource {
         userUUID: String,
         callback: RequestCallback<Pair<User, Boolean?>>
     ) {
-            FirebaseFirestore.getInstance()
-                .collection("/users")
-                .document(userUUID)
-                .get()
-                .addOnSuccessListener {res ->
+        FirebaseFirestore.getInstance()
+            .collection("/users")
+            .document(userUUID)
+            .get()
+            .addOnSuccessListener { res ->
                 val user = res.toObject(User::class.java)
 
-                    when(user){
-                        null -> {
-                            callback.onFailure("Falha ao converter usuário")
-                        }
-                        else -> {
-                         if(user.uuid == FirebaseAuth.getInstance().uid){
-                             callback.onSucess(Pair(user,null))
-                         }else{
-                             FirebaseFirestore.getInstance()
-                                 .collection("/followers")
-                                 .document(FirebaseAuth.getInstance().uid!!)
-                                 .collection("followers")
-                                 .whereEqualTo("uuid",userUUID)
-                                 .get()
-                                 .addOnSuccessListener { res ->
-                                     callback.onSucess(Pair(user,! res.isEmpty))
-                                 }
-                                 .addOnFailureListener { exception -> callback.onFailure(exception.message ?: "Falha ao buscar seguidores") }
-                                 .addOnCompleteListener { callback.onComplete() }
-                         }
+                when (user) {
+                    null -> {
+                        callback.onFailure("Falha ao converter usuário")
+                    }
+                    else -> {
+                        if (user.uuid == FirebaseAuth.getInstance().uid) {
+                            callback.onSucess(Pair(user, null))
+                        } else {
+                            FirebaseFirestore.getInstance()
+                                .collection("/followers")
+                                .document(userUUID)
+                                .get()
+                                .addOnSuccessListener { res ->
+                                    //Lógica para o botão de "seguir" ou "seguindo", verificando se já estamos seguindo o usuário enviando na .document(userUUID)
+                                    if (!res.exists()) {
+                                        callback.onSucess(Pair(user, false))
+                                    } else {
+                                        val list = res.get("followers") as List<String>
+                                        callback.onSucess(
+                                            Pair(
+                                                user,
+                                                list.contains(FirebaseAuth.getInstance().uid)
+                                            )
+                                        )
+                                    }
+                                }
+                                .addOnFailureListener { exception ->
+                                    callback.onFailure(
+                                        exception.message ?: "Falha ao buscar seguidores"
+                                    )
+                                }
+                                .addOnCompleteListener { callback.onComplete() }
                         }
                     }
                 }
-                .addOnFailureListener { exception -> callback.onFailure(exception.message ?: "Falha ao buscar usuário") }
+            }
+            .addOnFailureListener { exception ->
+                callback.onFailure(
+                    exception.message ?: "Falha ao buscar usuário"
+                )
+            }
     }
 
     override fun fetchUserPost(userUUID: String, callback: RequestCallback<List<Post>>) {
@@ -52,12 +74,12 @@ class FireProfileDataSource : ProfileDataSource {
             .collection("posts")
             .document(userUUID)
             .collection("posts")
-            .orderBy("timestamp",Query.Direction.DESCENDING)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { res ->
                 val documents = res.documents
                 val posts = mutableListOf<Post>()
-                for (document in documents){
+                for (document in documents) {
                     val post = document.toObject(Post::class.java)
                     post?.let {
                         posts.add(it)
@@ -65,7 +87,11 @@ class FireProfileDataSource : ProfileDataSource {
                 }
                 callback.onSucess(posts)
             }
-            .addOnFailureListener { exception -> callback.onFailure(exception.message ?: "Falha ao buscar posts") }
+            .addOnFailureListener { exception ->
+                callback.onFailure(
+                    exception.message ?: "Falha ao buscar posts"
+                )
+            }
             .addOnCompleteListener { callback.onComplete() }
     }
 
@@ -74,6 +100,114 @@ class FireProfileDataSource : ProfileDataSource {
         isFollow: Boolean,
         callback: RequestCallback<Boolean>
     ) {
+        //Processo para começar a seguir um usuário
+        val uid = FirebaseAuth.getInstance().uid ?: throw RuntimeException("Usuário não logado!!!")
+        FirebaseFirestore.getInstance()
+            .collection("/followers")
+            .document(userUUID)
+            .update(
+                "followers",
+                if (isFollow) FieldValue.arrayUnion(uid) else FieldValue.arrayRemove(uid)
+            )
+            .addOnSuccessListener { res ->
+                followingCounter(uid, isFollow)
+                followersCounter(userUUID,callback)
+                updateFeed(userUUID,isFollow)
 
+            }
+            .addOnFailureListener { exception ->
+                val err = exception as? FirebaseFirestoreException
+                if (err?.code == FirebaseFirestoreException.Code.NOT_FOUND) {
+                    //caso o processo de seguir algum usuário não foi feito ainda o programa irá criar essa lista de seguidores
+                    FirebaseFirestore.getInstance()
+                        .collection("/followers")
+                        .document(userUUID)
+                        .set(
+                            hashMapOf(
+                                "followers" to listOf(uid)
+                            )
+                        )
+                        .addOnSuccessListener { res ->
+                            followingCounter(uid, isFollow)
+                            followersCounter(userUUID,callback)
+                            updateFeed(userUUID,isFollow)
+                        }
+                        .addOnFailureListener { exception ->
+                            callback.onFailure(exception.message ?: "Falha ao criar seguidor")
+                        }
+                }
+                callback.onFailure(exception.message ?: "Falha ao atualizar seguidor")
+            }
+            .addOnCompleteListener { callback.onComplete() }
+    }
+
+
+
+
+    //Função para atualizar contagem de seguindo
+    private fun followingCounter(uid: String, isFollow: Boolean) {
+        val meRef = FirebaseFirestore.getInstance()
+            .collection("/users")
+            .document(uid)
+
+        if (isFollow) meRef.update("following", FieldValue.increment(1))
+        else meRef.update("following", FieldValue.increment(-1))
+    }
+
+    //Função para atualizar contagem de seguidores
+    private fun followersCounter(uid: String,callback: RequestCallback<Boolean>) {
+        val meRef = FirebaseFirestore.getInstance()
+            .collection("/users")
+            .document(uid)
+
+        FirebaseFirestore.getInstance()
+            .collection("/followers")
+            .document(uid)
+            .get()
+            .addOnSuccessListener { response ->
+                if (response.exists()) {
+                    val list = response.get("followers") as List<String>
+                    meRef.update("followers", list.size)
+                }
+                callback.onSucess(true)
+            }
+    }
+
+    private fun updateFeed(uid: String,isFollow: Boolean){
+        if(!isFollow){
+            //remover feed
+            FirebaseFirestore.getInstance()
+                .collection("/feeds")
+                .document(FirebaseAuth.getInstance().uid!!)
+                .collection("posts")
+                .whereEqualTo("publisher.uuid",uid)
+                .get()
+                .addOnSuccessListener {res ->
+                    val documents = res.documents
+                    for (document in documents){
+                        document.reference.delete()
+                    }
+                }
+        }else{
+            //adicionar feed
+            FirebaseFirestore.getInstance()
+                .collection("/posts")
+                .document(uid)
+                .collection("posts")
+                .get()
+                .addOnSuccessListener { res ->
+                    val posts = res.toObjects(Post::class.java)
+
+                    posts.lastOrNull()?.let {
+                        FirebaseFirestore.getInstance()
+                            .collection("/feeds")
+                            .document(FirebaseAuth.getInstance().uid!!)
+                            .collection("posts")
+                            .document(it.uuid!!)
+                            .set(it)
+                    }
+                }
+
+        }
     }
 }

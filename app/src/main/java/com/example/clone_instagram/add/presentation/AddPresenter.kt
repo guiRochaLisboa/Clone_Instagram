@@ -6,7 +6,7 @@ import com.example.clone_instagram.add.data.AddRepository
 import com.example.clone_instagram.common.base.RequestCallback
 
 class AddPresenter(
-    private val view : Add.View? = null,
+    private var view : Add.View? = null,
     private val repository : AddRepository
 ) : Add.Presenter {
     override fun createPost(uri: Uri, caption: String) {
@@ -32,6 +32,6 @@ class AddPresenter(
     }
 
     override fun onDestroy() {
-        TODO("Not yet implemented")
+        view = null
     }
 }

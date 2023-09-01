@@ -6,11 +6,6 @@ import com.example.clone_instagram.common.model.UserAuth
 import com.example.clone_instagram.home.Home
 import com.example.clone_instagram.home.data.HomeRepository
 
-
-
-
-
-
 class HomePresenter (
     private var view: Home.View?,
     private val repository: HomeRepository
@@ -37,6 +32,10 @@ class HomePresenter (
             }
 
         })
+    }
+
+    override fun logout() {
+        repository.logout()
     }
 
     override fun clear() {

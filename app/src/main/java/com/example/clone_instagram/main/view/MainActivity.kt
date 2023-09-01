@@ -1,5 +1,6 @@
 package com.example.clone_instagram.main.view
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,13 +16,17 @@ import com.example.clone_instagram.post.view.AddFragment
 import com.example.clone_instagram.common.extension.replaceFragment
 import com.example.clone_instagram.databinding.ActivityMainBinding
 import com.example.clone_instagram.home.view.HomeFragment
+import com.example.clone_instagram.main.LogoutListener
 import com.example.clone_instagram.profile.view.ProfileFragment
 import com.example.clone_instagram.search.view.SearchFragment
+import com.example.clone_instagram.splash.presentation.SplashPresenter
+import com.example.clone_instagram.splash.view.SplashActivity
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, AddFragment.AddListerner,
-SearchFragment.SearchLisener{
+SearchFragment.SearchLisener, LogoutListener, ProfileFragment.FollowListener
+{
 
 
     private lateinit var binding: ActivityMainBinding
@@ -144,6 +149,30 @@ SearchFragment.SearchLisener{
             commit()
         }
     }
+
+    override fun followUpdate() {
+        homeFragment.presenter.clear()
+
+        if(supportFragmentManager.findFragmentByTag(profileFragment.javaClass.simpleName) != null){
+            profileFragment.presenter.clear()
+        }
+    }
+
+    override fun logout() {
+        if(supportFragmentManager.findFragmentByTag(profileFragment.javaClass.simpleName) != null){
+            profileFragment.presenter.clear()
+        }
+
+        homeFragment.presenter.clear()
+        homeFragment.presenter.logout()
+
+        val intent = Intent(baseContext,SplashActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
+    }
+
+
 
 
 }

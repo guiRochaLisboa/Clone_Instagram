@@ -3,6 +3,7 @@ package com.example.clone_instagram.search.presenter
 import com.example.clone_instagram.common.base.RequestCallback
 import com.example.clone_instagram.common.model.DataBase
 import com.example.clone_instagram.common.model.Post
+import com.example.clone_instagram.common.model.User
 import com.example.clone_instagram.common.model.UserAuth
 import com.example.clone_instagram.profile.Profile
 import com.example.clone_instagram.profile.data.ProfileRepository
@@ -22,8 +23,8 @@ class SearchPresenter(
 
     override fun fetchUsers(name: String) {
         view?.showProgress(true)
-        repository.fetchUsers(name,object : RequestCallback<List<UserAuth>> {
-            override fun onSucess(data: List<UserAuth>) {
+        repository.fetchUsers(name,object : RequestCallback<List<User>> {
+            override fun onSucess(data: List<User>) {
                if(data.isEmpty()){
                    view?.displayEmptyUsers()
                }else{
