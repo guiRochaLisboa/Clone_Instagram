@@ -1,10 +1,12 @@
 package com.example.clone_instagram.main.view
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.WindowInsetsController
 import androidx.annotation.RequiresApi
@@ -37,7 +39,6 @@ SearchFragment.SearchLisener, LogoutListener, ProfileFragment.FollowListener
     private lateinit var searchFragment: SearchFragment
     private var currentFragment: Fragment? = null
 
-    @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -50,15 +51,27 @@ SearchFragment.SearchLisener, LogoutListener, ProfileFragment.FollowListener
          */
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-            window.insetsController?.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-                ,WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
+            when(resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)){
+                Configuration.UI_MODE_NIGHT_YES -> {
+                    window.statusBarColor = ContextCompat.getColor(this,R.color.black)
+                    binding.mainImgLogo.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                }
+                Configuration.UI_MODE_NIGHT_NO -> {
+                    window.insetsController?.setSystemBarsAppearance(
+                        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                    )
 
-            window.statusBarColor = ContextCompat.getColor(this,R.color.gray)
-
+                    window.statusBarColor = ContextCompat.getColor(this,R.color.gray)
+                }
+            }
         }
 
-        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.mainToolbar)
+
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_insta_camera)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
 
         homeFragment = HomeFragment()
         addFragment = AddFragment()
@@ -70,9 +83,7 @@ SearchFragment.SearchLisener, LogoutListener, ProfileFragment.FollowListener
         binding.mainBottomNav.setOnNavigationItemSelectedListener(this)
         binding.mainBottomNav.selectedItemId = R.id.menu_bottom_home
 
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_insta_camera)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = ""
+
 
 
     }
